@@ -82,9 +82,6 @@ export default function Homepage() {
     return confirmation;
   };
 
-  const onReset = () => {
-    form.reset();
-  };
 
   return (
     <>
