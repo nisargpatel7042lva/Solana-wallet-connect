@@ -67,7 +67,7 @@ export default function Homepage() {
     }
     if(confirmation){
 
-        await toast.success('Transaction Successful!!', {
+        toast.success('Transaction Successful!!', {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
