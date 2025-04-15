@@ -116,67 +116,84 @@ theme="light"
           </h1>
 
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-6"
-              >
-              <FormField
-                control={form.control}
-                name="receiver"
-                render={() => (
-                    <FormItem>
-                    <FormLabel className="text-md font-medium text-gray-700">
-                      Receiver
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter Receiver's Public Key"
-                        className="text-sm"
-                        onChange={(e) => setPublic_Key(e.target.value)}
-                        />
-                    </FormControl>
-                  </FormItem>
-                )}
-                />
+  <form
+    onSubmit={form.handleSubmit(onSubmit)}
+    className="space-y-6"
+  >
+    {/* Receiver Public Key Field */}
+    <FormField
+      control={form.control}
+      name="receiver"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel className="text-md font-medium text-gray-700">
+            Receiver
+          </FormLabel>
+          <FormControl>
+            <Input
+              placeholder="Enter Receiver's Public Key"
+              className="text-sm"
+              value={field.value}
+              onChange={(e) => {
+                field.onChange(e);
+                setPublic_Key(e.target.value); // sync with useState if needed
+              }}
+            />
+          </FormControl>
+        </FormItem>
+      )}
+    />
 
-              <FormField
-                control={form.control}
-                name="amount"
-                render={() => (
-                    <FormItem>
-                    <FormLabel className="text-md font-medium text-gray-700">
-                      Amount (SOL)
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter amount in SOL"
-                        type="number"
-                        className="text-sm"
-                        onChange={(e) => setAmtSol(Number(e.target.value))}
-                        />
-                    </FormControl>
-                  </FormItem>
-                )}
-                />
+    {/* Amount Field */}
+    <FormField
+      control={form.control}
+      name="amount"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel className="text-md font-medium text-gray-700">
+            Amount (SOL)
+          </FormLabel>
+          <FormControl>
+            <Input
+              placeholder="Enter amount in SOL"
+              type="number"
+              className="text-sm"
+              value={field.value}
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                field.onChange(value);
+                setAmtSol(value); // sync with useState if needed
+              }}
+            />
+          </FormControl>
+        </FormItem>
+      )}
+    />
 
-              <div className="flex justify-center gap-4">
-                <Button
-                  type="submit"
-                  className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-md transition"
-                  >
-                  Send
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="px-6 py-2 border-indigo-600 text-indigo-600 rounded-xl hover:bg-indigo-50"
-                  onClick={onReset}
-                  >
-                  Reset
-                </Button>
-              </div>
-            </form>
-          </Form>
+    {/* Buttons */}
+    <div className="flex justify-center gap-4">
+      <Button
+        type="submit"
+        className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-md transition"
+      >
+        Send
+      </Button>
+      <Button
+        type="button"
+        variant="outline"
+        className="px-6 py-2 border-indigo-600 text-indigo-600 rounded-xl hover:bg-indigo-50"
+        onClick={() => {
+          form.reset();
+          setPublic_Key("");
+          setAmtSol(0);
+        }}
+      >
+        Reset
+      </Button>
+    </div>
+  </form>
+</Form>
+
         </div>
       )}
     </div>
