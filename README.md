@@ -41,7 +41,7 @@ This is a React-based decentralized application (dApp) that allows users to tran
 
 ```bash
 # Clone the repo
-git clone https://github.com/siddharth-09/Solana-wallet-connect.git
+git clone https://github.com/nisargpatel7042lva/Solana-wallet-connect.git
 cd Solana-wallet-connect
 
 # Install dependencies

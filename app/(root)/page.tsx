@@ -100,7 +100,7 @@ theme="light"
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#e0f7fa] via-[#fff] to-[#ffe0f7] px-4 py-10">
        {/* GitHub Link */}
        <a
-          href="https://github.com/siddharth-09/Solana-wallet-connect"
+          href="https://github.com/nisargpatel7042lva/Solana-wallet-connect.git"
           target="_blank"
           rel="noopener noreferrer"
           className="absolute top-4 left-4"
