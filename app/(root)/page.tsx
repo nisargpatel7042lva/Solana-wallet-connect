@@ -23,7 +23,7 @@ import { useUnifiedWallet } from "@jup-ag/wallet-adapter";
 import ConnectWallet from "@/components/wallet";
 import { toast, ToastContainer } from "react-toastify";
 import Image from "next/image";
-import solanaLogo from "/mnt/data/04f7b679-1bc0-471d-bcfc-7ee6e9919c79.png";
+import solanaLogo from "@/public/solana-logo.png";
 
 export default function Homepage() {
   const [public_key, setPublic_Key] = useState("");
@@ -137,7 +137,7 @@ export default function Homepage() {
                         <FormControl>
                           <Input
                             placeholder="Enter Receiver's Public Key"
-                            className="text-sm"
+                            className="text-sm text-white"
                             value={field.value}
                             onChange={(e) => {
                               field.onChange(e);
@@ -161,10 +161,12 @@ export default function Homepage() {
                           <Input
                             placeholder="Enter amount in SOL"
                             type="number"
-                            className="text-sm"
+                            className="text-sm text-white"
+                            min="0"
+                            step="0.1"
                             value={field.value}
                             onChange={(e) => {
-                              const value = Number(e.target.value);
+                              const value = Math.max(0, Number(e.target.value));
                               field.onChange(value);
                               setAmtSol(value);
                             }}
@@ -184,7 +186,7 @@ export default function Homepage() {
                     <Button
                       type="button"
                       variant="outline"
-                      className="px-6 py-2 border-[#9945FF] text-[#9945FF] rounded-xl hover:bg-[#9945FF]/10"
+                      className="px-6 py-2 border-[#9945FF] text-[#9945FF] rounded-xl"
                       onClick={() => {
                         form.reset();
                         setPublic_Key("");
