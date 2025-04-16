@@ -1,4 +1,5 @@
 "use client";
+
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,8 @@ import {
 import { useUnifiedWallet } from "@jup-ag/wallet-adapter";
 import ConnectWallet from "@/components/wallet";
 import { toast, ToastContainer } from "react-toastify";
+import Image from "next/image";
+import solanaLogo from "/mnt/data/04f7b679-1bc0-471d-bcfc-7ee6e9919c79.png";
 
 export default function Homepage() {
   const [public_key, setPublic_Key] = useState("");
@@ -36,8 +39,6 @@ export default function Homepage() {
 
   const onSubmit = async () => {
     if (!publicKey) throw new Error("Wallet not connected");
-    console.log("Clicked");
-
     const connection = new Connection(clusterApiUrl("devnet"));
     const pk = new PublicKey(public_key);
     const lamports = amtSol * LAMPORTS_PER_SOL;
@@ -50,8 +51,6 @@ export default function Homepage() {
     );
 
     const signature = await sendTransaction(transaction, connection);
-    console.log(signature);
-
     const latestBlockhash = await connection.getLatestBlockhash();
     const confirmation = await connection.confirmTransaction({
       signature,
@@ -61,56 +60,36 @@ export default function Homepage() {
 
     if (confirmation.value.err) {
       throw new Error(
-        "Transaction failed to confirm: " +
-          confirmation.value.err.toString()
+        "Transaction failed to confirm: " + confirmation.value.err.toString()
       );
     }
-    if(confirmation){
 
-        toast.success('Transaction Successful!!', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            });
+    if (confirmation) {
+      toast.success("\u2714 Transaction Successful!", {
+        position: "top-right",
+        autoClose: 5000,
+        theme: "colored",
+      });
     }
-    console.log("Transaction confirmed:", confirmation);
-    return confirmation;
   };
-
 
   return (
     <>
-    <ToastContainer
-position="top-right"
-autoClose={5000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick={false}
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="light"
-/>
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#e0f7fa] via-[#fff] to-[#ffe0f7] px-4 py-10">
-       {/* GitHub Link */}
-       <a
+      <ToastContainer />
+      <div className="min-h-screen bg-gradient-to-br from-[#00FFA3] via-[#1A1A1A] to-[#9945FF] px-4 py-12 flex items-center justify-center relative">
+        {/* GitHub Link */}
+        <a
           href="https://github.com/nisargpatel7042lva/Solana-wallet-connect.git"
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute top-4 left-4"
+          className="absolute top-4 left-4 hover:opacity-80"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
             height="32"
-            fill="currentColor"
-            className="text-black hover:text-gray-700 transition-colors"
+            fill="white"
+            className="transition-colors"
             viewBox="0 0 16 16"
           >
             <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 
@@ -129,103 +108,98 @@ theme="light"
                      8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
           </svg>
         </a>
-      
-      <div className="mb-8">
-        <ConnectWallet />
-      </div>
 
-      {!connected || !publicKey ? (
-          <p className="text-lg font-semibold text-gray-600">
-          Please Connect Wallet
-        </p>
-      ) : (
-          <div className="w-full max-w-xl bg-white shadow-xl rounded-2xl p-8 border border-gray-200">
-          <h1 className="text-2xl font-bold text-center mb-6 text-indigo-700">
-            Send SOL on Devnet
-          </h1>
+        <div className="max-w-xl w-full bg-[#0E0E0E]/70 backdrop-blur-sm shadow-2xl rounded-3xl p-10 border border-white/20">
+          <div className="flex justify-center mb-6">
+            <Image src={solanaLogo} alt="Solana Logo" width={80} height={80} className="rounded-full" />
+          </div>
+          <ConnectWallet />
 
-          <Form {...form}>
-  <form
-    onSubmit={form.handleSubmit(onSubmit)}
-    className="space-y-6"
-  >
-    {/* Receiver Public Key Field */}
-    <FormField
-      control={form.control}
-      name="receiver"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel className="text-md font-medium text-gray-700">
-            Receiver
-          </FormLabel>
-          <FormControl>
-            <Input
-              placeholder="Enter Receiver's Public Key"
-              className="text-sm"
-              value={field.value}
-              onChange={(e) => {
-                field.onChange(e);
-                setPublic_Key(e.target.value); // sync with useState if needed
-              }}
-            />
-          </FormControl>
-        </FormItem>
-      )}
-    />
+          {!connected || !publicKey ? (
+            <p className="text-lg text-center text-white font-semibold mt-4">
+              Please Connect Wallet
+            </p>
+          ) : (
+            <>
+              <h1 className="text-2xl font-bold text-center mb-6 text-[#00FFA3]">
+                Send SOL on Devnet
+              </h1>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="receiver"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-md font-medium text-white">
+                          Receiver
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter Receiver's Public Key"
+                            className="text-sm"
+                            value={field.value}
+                            onChange={(e) => {
+                              field.onChange(e);
+                              setPublic_Key(e.target.value);
+                            }}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
 
-    {/* Amount Field */}
-    <FormField
-      control={form.control}
-      name="amount"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel className="text-md font-medium text-gray-700">
-            Amount (SOL)
-          </FormLabel>
-          <FormControl>
-            <Input
-              placeholder="Enter amount in SOL"
-              type="number"
-              className="text-sm"
-              value={field.value}
-              onChange={(e) => {
-                const value = Number(e.target.value);
-                field.onChange(value);
-                setAmtSol(value); // sync with useState if needed
-              }}
-            />
-          </FormControl>
-        </FormItem>
-      )}
-    />
+                  <FormField
+                    control={form.control}
+                    name="amount"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-md font-medium text-white">
+                          Amount (SOL)
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter amount in SOL"
+                            type="number"
+                            className="text-sm"
+                            value={field.value}
+                            onChange={(e) => {
+                              const value = Number(e.target.value);
+                              field.onChange(value);
+                              setAmtSol(value);
+                            }}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
 
-    {/* Buttons */}
-    <div className="flex justify-center gap-4">
-      <Button
-        type="submit"
-        className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-md transition"
-      >
-        Send
-      </Button>
-      <Button
-        type="button"
-        variant="outline"
-        className="px-6 py-2 border-indigo-600 text-indigo-600 rounded-xl hover:bg-indigo-50"
-        onClick={() => {
-          form.reset();
-          setPublic_Key("");
-          setAmtSol(0);
-        }}
-      >
-        Reset
-      </Button>
-    </div>
-  </form>
-</Form>
-
+                  <div className="flex justify-center gap-4">
+                    <Button
+                      type="submit"
+                      className="px-6 py-2 bg-[#00FFA3] hover:bg-[#33FFBE] text-black font-bold rounded-xl shadow-md transition"
+                    >
+                      Send
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="px-6 py-2 border-[#9945FF] text-[#9945FF] rounded-xl hover:bg-[#9945FF]/10"
+                      onClick={() => {
+                        form.reset();
+                        setPublic_Key("");
+                        setAmtSol(0);
+                      }}
+                    >
+                      Reset
+                    </Button>
+                  </div>
+                </form>
+              </Form>
+            </>
+          )}
         </div>
-      )}
-    </div>
-      </>
+      </div>
+    </>
   );
 }
