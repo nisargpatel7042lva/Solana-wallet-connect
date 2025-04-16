@@ -76,7 +76,7 @@ export default function Homepage() {
   return (
     <>
       <ToastContainer />
-      <div className="min-h-screen bg-gradient-to-br from-[#00FFA3] via-[#1A1A1A] to-[#9945FF] px-4 py-12 flex items-center justify-center relative">
+      <div className="min-h-screen px-4 py-12 flex items-center justify-center relative bg-[url('/gradient-background.png')] bg-cover bg-center">
         {/* GitHub Link */}
         <a
           href="https://github.com/nisargpatel7042lva/Solana-wallet-connect.git"
@@ -113,7 +113,9 @@ export default function Homepage() {
           <div className="flex justify-center mb-6">
             <Image src={solanaLogo} alt="Solana Logo" width={80} height={80} className="rounded-full" />
           </div>
-          <ConnectWallet />
+          <div className="flex justify-center mb-6">
+            <ConnectWallet />
+          </div>
 
           {!connected || !publicKey ? (
             <p className="text-lg text-center text-white font-semibold mt-4">
