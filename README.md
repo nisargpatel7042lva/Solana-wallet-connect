@@ -11,7 +11,7 @@ This is a React-based decentralized application (dApp) that allows users to tran
 
 ## 🌐 Live Demo
 
-> Coming soon... (Host this on Vercel/Netlify once you're ready!)
+Click [Here](https://solana-wallet-connect-five.vercel.app/)
 
 ---
 
@@ -46,9 +46,13 @@ cd Solana-wallet-connect
 
 # Install dependencies
 npm install
+OR
+bun i
 
 # Run the dev server
 npm run dev
+OR
+bun dev
 ```
 
 ---
@@ -100,5 +104,5 @@ Feel free to fork this repo and submit pull requests.
 
 ## 📃 License
 
-MIT License © 2025 [Your Name]
+MIT License © 2025 [Nisarg Patel]
 
